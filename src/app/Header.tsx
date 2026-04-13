@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import {useCookies} from "react-cookie";
-import {BoltIcon} from "lucide-react";
+import {BoltIcon , SquarePlus} from "lucide-react";
 
 function ButtonLogOut()
 {
@@ -42,7 +42,15 @@ function ButtonLogOut()
                 </BoltIcon>
                 </Link>
             </button>
+            <button className="px-6 py-2.5 m-4 bg-white hover:bg-blue-6 00 border-blue-700 border-2 text-blue-700 hover:text-white hover:bg-blue-700 rounded-lg font-medium transition-colors duration-200">
+                <Link to={`/dodaj-wpis`}>
+                    <SquarePlus>
+                    </SquarePlus>
+                </Link>
+            </button>
     </div>
+
+
     );
 
 
@@ -78,9 +86,11 @@ export function Header()
                     <div className="flex items-center gap-3">
 
                         <div>
-                            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-700 to-blue-500 bg-clip-text text-transparent">
-                                Learnly
-                            </h1>
+                            <Link to={"/"}>
+                                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-700 to-blue-500 bg-clip-text text-transparent">
+                                    Learnly
+                                </h1>
+                            </Link>
                             <p className="text-sm text-gray-500">Znajdź idealnego korepetytora</p>
                         </div>
                     </div>
