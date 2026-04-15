@@ -1,13 +1,36 @@
-import {NewspaperIcon,Bold,Italic,List,Upload,File,ChevronDown } from "lucide-react";
+import {NewspaperIcon,Bold,Italic,List,Upload,File,ChevronDown,X} from "lucide-react";
 import {useState} from "react";
 
 
 
 
 export function AddMaterial() {
+    interface FormData {
+        title: string;
+        description: string;
+        files?: File;
+        degree:string;
+        category: string;
+        materialDegree: string;
+        cost: number;
+        tags: string[];
+    }
+    const [formData,setFormData] = useState<FormData>({
+        title: "",
+        description: "",
+        degree:"",
+        category: "",
+        materialDegree: "",
+        cost: 0,
+        tags: []
+    });
+
 
     const [tags,setTags] = useState<string[]>([]);
-
+    const deleteTag = (tagToRemove:any) =>
+    {
+        setTags(tags.filter(tag => tag !== tagToRemove));
+    }
     const handleSubmit = (e:any) => {
         e.preventDefault()
         const form = e.currentTarget;
@@ -18,16 +41,66 @@ export function AddMaterial() {
             setTags([value, ...tags]);
             form.reset();
         }
+
+    }
+    const handleFinalSubmit = (e:any) => {
+        e.preventDefault();
+        const dataToSend = {
+            ...formData,
+            tags: tags
+        };
+        alert(dataToSend.cost);
+        setFormData(dataToSend);
     }
 
-    interface FormData {
-        title: string;
-        description: string;
-        files: File;
-        category: string;
-        materialDegree: string;
-        cost: number;
-        tags: string[];
+
+
+
+    const categories = [
+        // NAUKI ŚCISŁE
+        { id: 1, name: "Matematyka", group: "Nauki Ścisłe" },
+        { id: 2, name: "Fizyka", group: "Nauki Ścisłe" },
+        { id: 3, name: "Chemia", group: "Nauki Ścisłe" },
+        { id: 4, name: "Astronomia", group: "Nauki Ścisłe" },
+        { id: 5, name: "Logika", group: "Nauki Ścisłe" },
+
+        // NAUKI PRZYRODNICZE
+        { id: 6, name: "Biologia", group: "Przyrodnicze" },
+        { id: 7, name: "Geografia", group: "Przyrodnicze" },
+        { id: 8, name: "Ekologia", group: "Przyrodnicze" },
+        { id: 9, name: "Anatomia", group: "Przyrodnicze" },
+
+        // NAUKI HUMANISTYCZNE
+        { id: 10, name: "Język Polski", group: "Humanistyczne" },
+        { id: 11, name: "Historia", group: "Humanistyczne" },
+        { id: 12, name: "Filozofia", group: "Humanistyczne" },
+        { id: 13, name: "Wiedza o Kulturze", group: "Humanistyczne" },
+        { id: 14, name: "Historia Sztuki", group: "Humanistyczne" },
+
+        // JĘZYKI OBCE
+        { id: 15, name: "Angielski", group: "Języki Obce" },
+        { id: 16, name: "Niemiecki", group: "Języki Obce" },
+        { id: 17, name: "Hiszpański", group: "Języki Obce" },
+        { id: 18, name: "Francuski", group: "Języki Obce" },
+
+        // INFORMATYKA I TECHNOLOGIA
+        { id: 19, name: "Programowanie", group: "Informatyka" },
+        { id: 20, name: "Bazy Danych", group: "Informatyka" },
+        { id: 21, name: "Cyberbezpieczeństwo", group: "Informatyka" },
+        { id: 22, name: "Robotyka", group: "Informatyka" },
+
+        // SPOŁECZNE I EKONOMICZNE
+        { id: 23, name: "WOS", group: "Społeczne" },
+        { id: 24, name: "Psychologia", group: "Społeczne" },
+        { id: 25, name: "Socjologia", group: "Społeczne" },
+        { id: 26, name: "Przedsiębiorczość", group: "Ekonomia" },
+        { id: 27, name: "Marketing", group: "Ekonomia" }
+    ];
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const value = e.target.value;
+        const name = e.target.name;
+        setFormData(prev =>({...prev, [name]: value}));
     }
 
     return (<div>
@@ -39,13 +112,15 @@ export function AddMaterial() {
                     <div className="mb-10 flex justify-between items-end">
                         <div>
 
-                            <h1 className="text-4xl text-on-surface ">Stwórz swój materiał naukowy</h1>
+                            <h1 className="text-4xl text-on-surface">Stwórz swój materiał naukowy</h1>
                             <p className="text-on-surface-variant mt-2 text-lg">Opublikuj swoją wiedze aby dzielić się nią z innymi!</p>
                         </div>
                         <div className="flex gap-3">
-                            <button className="px-8 py-2.5 text-sm font-bold bg-gradient-to-br from-blue-700 to-blue-900 text-white rounded-xl shadow-sm active:scale-95 transition-all po">Opublikuj swój materiał!</button>
+                            <button className="px-8 py-2.5 text-sm font-bold bg-gradient-to-br from-blue-700 to-blue-900 text-white rounded-xl shadow-sm active:scale-95 transition-all po" onClick={handleFinalSubmit}>Opublikuj swój materiał!</button>
+
                         </div>
                     </div>
+
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 ">
                         <div className="lg:col-span-2 space-y-8  rounded-lg">
                             <section className="bg-white bg-surface-container-lowest p-8 rounded-lg shadow-sm border border-white/40">
@@ -58,7 +133,8 @@ export function AddMaterial() {
                                 <div className="space-y-6">
                                     <div className="space-y-1.5">
                                         <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider ml-1">Tytuł</label>
-                                        <input className="w-full bg-surface-container-low border-none rounded-xl px-4 py-3.5 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all" placeholder="n.p Pochodna funkcji złożonej zadania maturalne" type="text"/>
+                                        <input className="w-full bg-surface-container-low border-none rounded-xl px-4 py-3.5 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/20
+                                        focus:bg-white transition-all" name="title" value={formData.title}  onChange={handleChange} placeholder="n.p Pochodna funkcji złożonej zadania maturalne"  type="text"/>
                                     </div>
                                     <div className="space-y-1.5">
                                         <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider ml-1 py-15 ">Opis</label>
@@ -69,7 +145,7 @@ export function AddMaterial() {
                                                 <button className="p-1.5 hover:bg-white rounded"><span className="material-symbols-outlined text-sm" data-icon="format_list_bulleted"><List className={"size-2/3"}></List></span></button>
                                                 <div className="w-px h-4 bg-outline-variant mx-1"></div>
                                             </div>
-                                            <textarea className="w-full bg-transparent border-none px-4 py-3 text-on-surface placeholder:text-outline focus:ring-0" placeholder="Opisz najważniesjze rzeczy jakie będzie zawierać twój materiał"></textarea>
+                                            <textarea className="w-full bg-transparent border-none px-4 py-3 text-on-surface placeholder:text-outline focus:ring-0" name="description" value={formData.description} onChange={handleChange} placeholder="Opisz najważniesjze rzeczy jakie będzie zawierać twój materiał"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -98,12 +174,20 @@ export function AddMaterial() {
                                     <div className="space-y-1.5">
                                         <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest ml-1">Category</label>
                                         <div className="relative">
-                                            <select className="w-full appearance-none bg-white border-none rounded-xl px-4 py-3 text-sm text-on-surface focus:ring-2 focus:ring-primary/20 transition-all">
-                                                <option>Matematyka</option>
-                                                <option>Fizyka</option>
-                                                <option>Angielski</option>
-                                                <option>Informatyka</option>
-                                                <option>Biologia</option>
+                                            <select className="w-full appearance-none bg-white border-none rounded-xl px-4 py-3 text-sm text-on-surface focus:ring-2 focus:ring-primary/20 transition-all"
+
+                                                    name="category" onChange={handleChange}>
+                                                {[...new Set(categories.map(c => c.group))].map(groupName => (
+                                                    <optgroup key={groupName} label={groupName} >
+                                                        {categories
+                                                            .filter(c => c.group === groupName)
+                                                            .map(cat => (
+                                                                <option key={cat.id} value={cat.name}>
+                                                                    {cat.name}
+                                                                </option>
+                                                            ))}
+                                                    </optgroup>
+                                                ))}
                                             </select>
                                             <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none" data-icon="expand_more"><ChevronDown></ChevronDown></span>
                                         </div>
@@ -111,7 +195,7 @@ export function AddMaterial() {
                                     <div className="space-y-1.5">
                                         <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest ml-1">Poziom Materiału</label>
                                         <div className="relative">
-                                            <select className="w-full appearance-none bg-white border-none rounded-xl px-4 py-3 text-sm text-on-surface focus:ring-2 focus:ring-primary/20 transition-all">
+                                            <select className="w-full appearance-none bg-white border-none rounded-xl px-4 py-3 text-sm text-on-surface focus:ring-2 focus:ring-primary/20 transition-all" name="degree" value={formData.degree} onChange={handleChange}>
                                                 <option>Studia</option>
                                                 <option>Liceum/Technikum</option>
                                                 <option>Podstawówka</option>
@@ -126,11 +210,12 @@ export function AddMaterial() {
 
                                             <form onSubmit={handleSubmit}>
                                                 <input className="border-1 rounded-xs focus:ring-0 text-sm flex-1 min-w-[80px] bg-gray-100 border-1 border-gray-200 p-1" placeholder="" type="text" name="tagInput"/>
-                                                <label className={"text-gray-400 text-sm italic"}>Uwzględnij tagi aby inni łątwiej mogli
-                                                    znaleść twoje materiały, schemat: tag1,tag2,tag3</label>
-                                                <button type="submit">Dodaj tag</button>
-                                            </form>
 
+                                                <button type="submit" className={"text-gray-500  p-1 px-3 border-1 border-gray-300 bg-gray-100 hover:bg-gray-400 my-2 text-xs" }>Dodaj tag</button>
+                                            </form>
+                                            {tags.map((tag) => (
+                                                <button className={"bg-blue-400 text-gray-50 rounded-lg p-1 px-2  hover:bg-red-700 transition-all flex text-sm italic"} onClick={()=>deleteTag(tag)}><X size={18}></X>{tag}</button>
+                                            ))}
 
 
                                         </div>
@@ -150,7 +235,8 @@ export function AddMaterial() {
                                         <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest ml-1">Koszt (PLN)</label>
                                         <div className="relative">
                                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-outline font-bold">$</span>
-                                            <input className="w-full bg-white border-none rounded-xl pl-8 pr-4 py-3 text-sm text-on-surface focus:ring-2 focus:ring-primary/20 transition-all" placeholder="0.00" type="number"/>
+                                            <input className="w-full bg-white border-none rounded-xl pl-8 pr-4 py-3 text-sm text-on-surface focus:ring-2 focus:ring-primary/20 transition-all" min={0} placeholder="0.00" name="cost" value={formData.cost} onChange={handleChange} type="number"/>
+
                                         </div>
                                         <p className="text-[10px] text-tertiary font-medium ml-1">Do sprzedaży pobierana jest prowizja atelier w wysokości 5%.</p>
                                     </div>
