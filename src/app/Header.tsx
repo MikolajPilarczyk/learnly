@@ -88,7 +88,7 @@ export function Header()
                         <div>
                             <Link to={"/"}>
                                 <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-700 to-blue-500 bg-clip-text text-transparent">
-                                    Learnly
+                                    DungeonSounds
                                 </h1>
                             </Link>
                             <p className="text-sm text-gray-500">Znajdź idealnego korepetytora</p>
