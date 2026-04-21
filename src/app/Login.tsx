@@ -108,14 +108,14 @@ export function LoginSide()
                           <span className="text-sm text-gray-600">Zapamiętaj mnie</span>
                       </label>
                       <a href="#"
-                         className="text-sm text-yellow-600 hover:text-yellow-700 transition">
+                         className="text-sm text-yellow-600 hover:text-amber-400 transition">
                           Zapomniałeś hasła?
                       </a>
                   </div>
 
                   <button
                       type="submit"
-                      className="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-3 rounded-lg transition-colors"
+                      className="w-full bg-yellow-600 hover:bg-amber-400 text-white py-3 rounded-lg transition-colors"
                   >
                       Zaloguj się
                   </button>

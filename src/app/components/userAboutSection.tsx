@@ -11,7 +11,7 @@ interface UserProfileProps {
 
 export function UserAboutSection({ name, avatar, bio, totalLikes, totalMaterials, premiumMaterials }: UserProfileProps) {
     return (
-        <div className="border-b border-border pb-12 mb-12">
+        <div className="border-b border-border bg-neutral-800 pb-12 mb-12">
             <div className="flex flex-col md:flex-row gap-8 items-start">
                 <div className="w-32 h-32 rounded-full bg-muted overflow-hidden flex-shrink-0">
                     <img src={avatar} alt={name} className="w-full h-full object-cover" />

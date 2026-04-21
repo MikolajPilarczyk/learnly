@@ -1,6 +1,12 @@
 import { Link } from 'react-router-dom';
 import {useCookies} from "react-cookie";
-import {BoltIcon , SquarePlus} from "lucide-react";
+import {BoltIcon } from "lucide-react";
+
+
+
+
+
+
 
 function ButtonLogOut()
 {
@@ -19,35 +25,29 @@ function ButtonLogOut()
     return(
 
     <div className="login flex">
-        <div className="px-6">
-            <button className="px-6 py-2.5 m-4 bg-yellow-700 hover:bg-yellow-600 hover:text-yellow-950 00  font-medium transition-colors duration-200"
-                    onClick={hadleLogout}
-            >
-
-                <Link to="/mainLoginPage">Wyloguj</Link>
-            </button>
-
-
-            <button className="px-6 py-2.5 m-4 bg-yellow-950  hover:bg-yellow-600 border-yellow-700 border-2 text-yellow-700 hover:text-neutral-800    font-medium transition-colors duration-200">
-                <Link to={`/profile/${cookies.userData.userNameAndSurname}`}>Profil Użytkownika</Link>
-            </button>
 
 
 
 
-        </div>
-            <button className="px-6 py-2.5 m-4 bg-yellow-950  hover:bg-yellow-600 border-yellow-700 border-2 text-yellow-700 hover:text-neutral-800   font-medium transition-colors duration-200">
-                <Link to={`/edycja-profilu`}>
+
+
+
+        <button className="px-6 py-2.5 m-4 hover:text-yellow-950 00  font-medium transition-colors duration-200"
+        >
+        </button>
+        <button className="px-6 py-2.5 m-4  hover:text-yellow-950 00  font-medium transition-colors duration-200"
+                onClick={hadleLogout}
+        >
+
+            <Link to="/mainLoginPage">Wyloguj</Link>
+        </button>
+        <button className="px-6 py-2.5 m-4  hover:text-yellow-950 00  font-medium transition-colors duration-200"
+        >
+            <Link to={`/edycja-profilu`}>
                 <BoltIcon>
                 </BoltIcon>
-                </Link>
-            </button>
-            <button className="px-6 py-2.5 m-4 bg-yellow-950  hover:bg-yellow-600 border-yellow-700 border-2 text-yellow-700 hover:text-neutral-800  font-medium transition-colors duration-200">
-                <Link to={`/dodaj-wpis`}>
-                    <SquarePlus>
-                    </SquarePlus>
-                </Link>
-            </button>
+            </Link>
+        </button>
     </div>
 
 
@@ -69,7 +69,8 @@ function ButtonLogin()
     }
     else
     {
-        return ( <button className="px-6 py-2.5 bg-yellow-700 hover:bg-yellow-600 text-neutral-900 rounded-lg font-medium transition-colors duration-200">
+        return (            <button className="px-6 py-2.5 m-4  hover:text-yellow-950 00  font-medium transition-colors duration-200"
+        >
             <Link to="/mainLoginPage">Zaloguj się</Link>
         </button>);
 
@@ -79,27 +80,41 @@ function ButtonLogin()
 
 export function Header()
 {
-    return(
-        <header className="bg-gradient-to-b from-neutral-900 to-neutral-950 shadow-sm border-b border-gray-100">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
+    const [cookies] = useCookies(['userData']);
 
-                        <div>
-                            <Link to={"/"}>
-                                <h1 className="text-3xl font-bold bg-gradient-to-r font-serif from-yellow-700 to-yellow-500 bg-clip-text text-transparent">
-                                    DungeonSounds
-                                </h1>
-                            </Link>
-                            <p className="text-sm text-gray-400">Znajdź idealną playliste do swojej sesji RPG</p>
-                        </div>
-                    </div>
+    return (
+        <nav
+            className="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-20 bg-[#131313] border-b-4 border-[#464747]">
+            <div className="text-2xl font-black text-[#ffb59c] tracking-widest font-headline uppercase">
+                OBSIDIAN FORGE
+            </div>
+            <div className="hidden md:flex gap-8 items-center">
+                <Link className="text-[#c7c6c6] hover:text-[#ffb59c] font-headline tracking-tighter uppercase font-bold transition-all duration-300"
+                   to="/dodaj-wpis">FORGE</Link>
+                <a className="text-[#c7c6c6] hover:text-[#ffb59c] font-headline tracking-tighter uppercase font-bold transition-all duration-300"
+                   href="#">ARMORY</a>
+                <a className="text-[#c7c6c6] hover:text-[#ffb59c] font-headline tracking-tighter uppercase font-bold transition-all duration-300"
+                   href="#">RUNES</a>
+            </div>
+            <div className="flex items-center gap-4">
+                <button
+                    className="material-symbols-outlined text-secondary  p-2 transition-all active:scale-95"><ButtonLogin></ButtonLogin>
+                </button>
+                <div className="w-10 h-10 border-2 border-primary bg-surface-container-high overflow-hidden">
 
-                    <ButtonLogin></ButtonLogin>
+
+                    <Link to={`/profile/${cookies.userData.userNameAndSurname}`}>
+                        <img alt="Dwarven hero avatar" className="w-full h-full object-cover grayscale contrast-125"
+                             data-alt="Dwarven warrior with braided beard and glowing copper eyes wearing heavy dark iron plate armor"
+                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRAm5-YVoLQV-_9fyCzCOHBtHxkchsPrKXlwOvqPylzQBt3GTsKD5Y6W3Lr-D1VFspOlWYnNQEMn0sPNvvjeQgzOdP8WnpIFoQ25k8Mid4NXdWlnet9wQGh7rC9saGfYlKm-Eguz9FIMZAXsDA-nj3g5-Tya05mGVOQD8hUD5WgtHuQoWgXBtMGKpXPDtJ_0UzeMkd90goCuGml4FdpXEkFU0pU7rEAIOZcDj6IdXNh8Mo7fuLQbBZMLL5nmu9NO4XLPluIxxKHYW7"/>
+
+                    </Link>
+
 
                 </div>
             </div>
-        </header>
+        </nav>
+
 
     )
 }

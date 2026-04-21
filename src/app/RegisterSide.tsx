@@ -140,11 +140,11 @@ export function RegisterSide()
                     />
                     <span className="text-sm text-gray-600">
                     Akceptuję{' '}
-                        <a href="#" className="text-yellow-600 hover:text-yellow-700">
+                        <a href="#" className="text-yellow-600 hover:text-amber-400">
                       regulamin
                     </a>{' '}
                         i{' '}
-                        <a href="#" className="text-yellow-600 hover:text-yellow-700">
+                        <a href="#" className="text-yellow-600 hover:text-amber-400">
                       politykę prywatności
                     </a>
                   </span>
@@ -152,7 +152,7 @@ export function RegisterSide()
 
                 <button
                     type="submit"
-                    className="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-3 rounded-lg transition-colors"
+                    className="w-full bg-yellow-600 hover:bg-amber-400 text-white py-3 rounded-lg transition-colors"
                 >
                     Zarejestruj się jako {accountType === 'student' ? 'Uczeń' : 'Korepetytor'}
                 </button>

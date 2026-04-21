@@ -124,7 +124,7 @@ export function EditProfile()
     {
         return (
 
-            <div className="min-h-screen bg-[#f5f7fa]">
+            <div className="min-h-screen bg-[#f5f7fa] py-20">
                 <div className="max-w-4xl mx-auto px-6 py-12">
                     <div className="mb-10">
                         <h1 className="text-[2rem] mb-2">Ustawienia profilu</h1>
