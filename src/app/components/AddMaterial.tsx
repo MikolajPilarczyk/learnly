@@ -68,11 +68,12 @@ export function AddMaterial() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(setFormData),
+                body: JSON.stringify(formData),
             });
-
+            console.log(JSON.stringify(formData));
             if(response.ok){
                 alert("Dodano pomyślnie")
+
             }
 
         } catch (error) {
@@ -106,7 +107,10 @@ export function AddMaterial() {
         );
     }
 
-
+    const checkNull = (e) =>
+    {
+       //dodaj walidacje
+    }
 
     const [tempSongTitle,setTempSongTitle] = useState<string>("");
     const [tempSongUrl,setTempSongUrl] = useState<string>("");
@@ -208,7 +212,7 @@ export function AddMaterial() {
                                     <div className="space-y-1.5">
                                         <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider ml-1">Tytuł</label>
                                         <input className="w-full bg-surface-container-low border-none  px-4 py-3.5 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/20
-                                        bg-[#353534] transition-all " name="title" value={formData.title}  onChange={handleChange} placeholder="n.p Eksploracja szlaków grórskich"  type="text"/>
+                                        bg-[#353534] transition-all " name="title" value={formData.title}   onChange={handleChange} placeholder="n.p Eksploracja szlaków grórskich"  type="text"/>
                                     </div>
 
                                     {/*Dodawanie utworów*/}
