@@ -17,9 +17,9 @@ export function PlaylistWindow({title,vibe,tracks}:PlaylistWindowProps)
             <div
                 className="absolute top-0 left-0 w-2 h-0 group-hover:h-full bg-[#ffb59c] transition-all duration-500"></div>
             <div
-                className="aspect-square bg-[#0e0e0e] mb-4 border-4 border-[#464747] overflow-hidden">
+                className="aspect-square bg-[#0e0e0e] mb-4 border-4 border-[#464747] overflow-hidden text-gray-100">
                 <ListMusic
-                     className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 p-13 hover:p-10"
+                     className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 p-5 hover:p-4 text-gray-100"
                     />
             </div>
             <h3 className="font-headline text-xl font-bold text-[#e5e2e1] mb-1 group-hover:text-[#ffb59c] transition-colors">{title}</h3>

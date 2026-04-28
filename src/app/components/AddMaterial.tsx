@@ -6,7 +6,7 @@ import {useCookies} from "react-cookie";
 
 
 export function AddMaterial() {
-   const [cookies] = useCookies(["userData"]);
+    const [cookies] = useCookies(["userData"]);
 
     interface Song
     {
@@ -65,25 +65,50 @@ export function AddMaterial() {
             playlists: playlists
         };
         setFormData(dataToSend);
-        console.log(formData.username);
 
-        try {
-            const response = await fetch('http://localhost:8080/api/upload', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(dataToSend),
-            });
-            console.log(JSON.stringify(dataToSend));
-            if(response.ok){
-                alert("Dodano pomyślnie")
 
+
+
+
+        if(dataToSend.title !="")
+        {
+            if(dataToSend.playlists.length > 0)
+            {
+                console.log(dataToSend);
+
+                try {
+                    const response = await fetch('http://localhost:8080/api/upload', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(dataToSend),
+                    });
+                    console.log(JSON.stringify(dataToSend));
+                    if(response.ok){
+                        alert("Dodano pomyślnie")
+
+                    }
+
+                } catch (error) {
+                    console.error("Błąd połączenia:", error);
+                }
+            }
+            else
+            {
+                alert("Ej no dodaj jakieś playlisty");
             }
 
-        } catch (error) {
-            console.error("Błąd połączenia:", error);
+
+
         }
+        else
+        {
+            alert("No co ty nadaj jakiś tytuł swojej playliście")
+
+        }
+
+
 
 
     }
@@ -103,6 +128,8 @@ export function AddMaterial() {
         setPlaylists(playlists.filter(playlists => playlists.title !== titleToRemove));
     }
 
+
+
     const deleteSong = (titleToRemove:any) =>
     {
         setPlaylists(prevPlaylists =>
@@ -113,37 +140,33 @@ export function AddMaterial() {
         );
     }
 
-    const checkNull = (e) =>
-    {
-       //dodaj walidacje
-    }
 
-    const [tempSongTitle,setTempSongTitle] = useState<string>("");
-    const [tempSongUrl,setTempSongUrl] = useState<string>("");
 
-    const AddSong = (playlistTitle:string) => {
-        setPlaylists(prevList => {
-            return prevList.map(item => {
-                if (item.title == playlistTitle) {
-                        const newSong: Song = {
-                            title: tempSongTitle,
-                            url: tempSongUrl
-                        }
+    const AddSong = (e: React.MouseEvent, playlistTitle: string) => {
+        const button = e.currentTarget;
+        const parent = button.parentElement;
+        if (!parent) return;
 
-                        const updatedItem:Playlist = {
-                            title: item.title,
-                            songs: [...item.songs,newSong]
+        const titleInput = parent.querySelector('input[name="songTitle"]') as HTMLInputElement;
+        const urlInput = parent.querySelector('input[name="songUrl"]') as HTMLInputElement;
 
-                        }
-                        return updatedItem;
-                }
-                else
-                {
+        const title = titleInput?.value.trim();
+        const url = urlInput?.value.trim();
+
+        if (title && url) {
+            setPlaylists(prevList => {
+                return prevList.map(item => {
+                    if (item.title === playlistTitle) {
+                        const newSong: Song = { title, url };
+                        return { ...item, songs: [...item.songs, newSong] };
+                    }
                     return item;
-                }
-
+                });
             });
-        });
+
+            if (titleInput) titleInput.value = "";
+            if (urlInput) urlInput.value = "";
+        }
     }
 
     const categories = [
@@ -212,7 +235,7 @@ export function AddMaterial() {
                                     <div className="text-[#ffb59c]">
                                         <NewspaperIcon />
                                     </div>
-                                   Głowne Informacje
+                                    Głowne Informacje
                                 </h2>
                                 <div className="space-y-6">
                                     <div className="space-y-1.5">
@@ -239,11 +262,11 @@ export function AddMaterial() {
                                     </div>
                                     {
                                         playlists.map((playlist,index) => (
-                                            <div>
+                                            <div key={index}>
 
-                                                <div key={index} className={"flex justify-between items-end"}>
+                                                <div className={"flex justify-between items-end"}>
                                                     <h2 className={"flex p-3"}>
-                                                      {playlist.title}</h2>
+                                                        {playlist.title}</h2>
                                                     <button  className={"p-3 hover:text-red-300 transition-all duration-75"} onClick={()=>deletePlaylist(playlist.title)}>
                                                         <Trash></Trash>
 
@@ -252,18 +275,17 @@ export function AddMaterial() {
                                                 </div>
 
                                                 <input className="w-full bg-surface-container-low border-none  px-2 py-2.5  text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/20
-                                                     bg-[#353534] transition-all " name="playlistTitle"  placeholder="Dodaj tytuł wyświetlany piosenki"
-                                                       onChange={(e)=>setTempSongTitle(e.target.value)}
+                                                     bg-[#353534] transition-all " name="songTitle"  placeholder="Dodaj tytuł wyświetlany piosenki"
                                                        type="text"/>
 
                                                 <input className="w-full bg-surface-container-low border-none  px-2 py-2.5 text-on-surface mt-2 placeholder:text-outline focus:ring-2 focus:ring-primary/20
-                                                     bg-[#353534] transition-all " name="playlistTitle"  placeholder="Dodaj url piosenki (soundcloud)"
-                                                       onChange={(e)=>setTempSongUrl(e.target.value)} type="text"/>
+                                                     bg-[#353534] transition-all " name="songUrl"  placeholder="Dodaj url piosenki (soundcloud)"
+                                                       type="text"/>
 
-                                                <button className={"text-[#c7c6c6]  p-1 px-3 border-1  bg-[#353534] hover:bg-gray-400 my-2 text-xs"} onClick={()=>AddSong(playlist.title)}>Dodaj utwór</button>
+                                                <button className={"text-[#c7c6c6]  p-1 px-3 border-1  bg-[#353534] hover:bg-gray-400 my-2 text-xs"} onClick={(e)=>AddSong(e, playlist.title)}>Dodaj utwór</button>
 
-                                                {playlist.songs.map((song,index) => (
-                                                    <div key={index}>
+                                                {playlist.songs.map((song,sIndex) => (
+                                                    <div key={sIndex}>
                                                         <div className={"p-3 bg-[#303030] opacity-85 rounded-full flex flex-row mt-2 justify-between items-end"}>
                                                             <div className="flex ">
                                                                 <AudioLines></AudioLines>
@@ -321,8 +343,8 @@ export function AddMaterial() {
 
                                                 <button type="submit" className={"text-[#c7c6c6]  p-1 px-3 border-1  bg-[#353534] hover:bg-gray-400 my-2 text-xs" }>Dodaj tag</button>
                                             </form>
-                                            {tags.map((tag) => (
-                                                <button className={"bg-[#a93500] text-gray-50 rounded-lg p-1 px-2  hover:bg-[#93000b] transition-all flex text-sm italic"} onClick={()=>deleteTag(tag)}><X size={18}></X>{tag}</button>
+                                            {tags.map((tag, tIndex) => (
+                                                <button key={tIndex} className={"bg-[#a93500] text-gray-50 rounded-lg p-1 px-2  hover:bg-[#93000b] transition-all flex text-sm italic"} onClick={()=>deleteTag(tag)}><X size={18}></X>{tag}</button>
                                             ))}
 
 

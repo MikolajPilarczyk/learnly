@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
 import {PlaylistWindow} from "./components/playlistWindow.tsx";
-import {data} from "autoprefixer";
 
 
 export function UserProfile() {
@@ -71,20 +70,6 @@ export function UserProfile() {
         if (username) {
             sendUsername();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -168,7 +153,7 @@ export function UserProfile() {
                                                 <span
                                                     className="font-label text-[10px] text-[#c7c6c6] uppercase font-bold tracking-widest">Wykute Playlisty</span>
                                                 <span
-                                                    className="font-headline text-xl text-[#ffb59c] font-bold">liczba playlist</span>
+                                                    className="font-headline text-xl text-[#ffb59c] font-bold">{userPlaylistSets.length}</span>
                                             </div>
                                             <div
                                                 className="flex justify-between items-center bg-[#353534] p-3 metallic-chamfer">
@@ -204,13 +189,15 @@ export function UserProfile() {
                                             <button
                                             className="px-8 py-3 font-headline font-bold text-[#ffb59c] border-b-2 border-[#ffb59c] bg-[#2a2a2a] uppercase tracking-tighter"
                                             onClick={()=> setPageLiked(true)}>
-                                            Liked
+                                                Polubione
                                         </button>
                                             <button
                                                 className="px-8 py-3 font-headline font-bold text-[#c7c6c6] hover:text-[#ffb59c] transition-colors uppercase tracking-tighter"
                                                 onClick={()=> setPageLiked(false)}>
 
-                                                Shared
+
+
+                                                Udostępnione
                                             </button></div>
 
 
@@ -220,14 +207,14 @@ export function UserProfile() {
                                             <button
                                                 className="px-8 py-3 font-headline font-bold text-[#c7c6c6] hover:text-[#ffb59c] transition-colors uppercase tracking-tighter"
                                                 onClick={()=> setPageLiked(true)}>
-                                                Liked
+                                                Polubione
                                             </button>
                                             <button
                                                 className="px-8 py-3 font-headline font-bold text-[#ffb59c] border-b-2 border-[#ffb59c] bg-[#2a2a2a] uppercase tracking-tighter"
 
                                                 onClick={()=> setPageLiked(false)}>
 
-                                                Shared
+                                                Udostępnione
                                             </button>
                                         </div>
 
@@ -236,10 +223,19 @@ export function UserProfile() {
                                     )}
 
                                 </div>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-yellow-50">
+                                <div >
                                     {/*Miejsce na playlisty*/}
                                     {pageLiked?(
-                                        <div>
+                                        <div className="grid grid-cols-3 gap-4 p-4">
+
+                                        <PlaylistWindow  title={"Playlista dnd"} vibe={"Mroczny"} tracks={1}></PlaylistWindow>
+                                            <PlaylistWindow  title={"Playlista dnd"} vibe={"Mroczny"} tracks={1}></PlaylistWindow>
+                                            <PlaylistWindow  title={"Playlista dnd"} vibe={"Mroczny"} tracks={1}></PlaylistWindow>
+                                            <PlaylistWindow  title={"Playlista dnd"} vibe={"Mroczny"} tracks={1}></PlaylistWindow>
+                                            <PlaylistWindow  title={"Playlista dnd"} vibe={"Mroczny"} tracks={1}></PlaylistWindow>
+                                            <PlaylistWindow  title={"Playlista dnd"} vibe={"Mroczny"} tracks={1}></PlaylistWindow>
+                                            <PlaylistWindow  title={"Playlista dnd"} vibe={"Mroczny"} tracks={1}></PlaylistWindow>
+                                            <PlaylistWindow  title={"Playlista dnd"} vibe={"Mroczny"} tracks={1}></PlaylistWindow>
                                             <PlaylistWindow  title={"Playlista dnd"} vibe={"Mroczny"} tracks={1}></PlaylistWindow>
 
 
@@ -249,16 +245,16 @@ export function UserProfile() {
 
                                         </div>
                                     ):(
-                                        <div>Udostępnione
+                                        <div>
                                             {
                                                 userPlaylistSets.length>0?(
-                                                    <div>
-                                                      Jest
-                                                        {
+                                                    <div className="grid grid-cols-3 gap-4 p-4">
+
+                                                    {
                                                             userPlaylistSets.map((playlist:any) =>
-                                                                <div>
+                                                                <Link to={`/grymuar/${playlist.id}`}>
                                                                     <PlaylistWindow title={playlist.title} vibe={playlist.category} tracks={playlist.playlists.length} />
-                                                                </div>
+                                                                </Link>
 
                                                             )
                                                         }
